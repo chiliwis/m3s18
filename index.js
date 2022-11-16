@@ -19,9 +19,14 @@ server.get("/", (request, response) => {
 });
 
 server.get("/platillos", (request, response) => {
+    let data_mapeada = platillos.map((platillo, index) => {
+        return {index, ...platillo};
+    });
+
     response.json(
         {
-            data: platillos,
+            // data: platillos,
+            data: data_mapeada,
             count: platillos.length,
             mensaje: "Platillos obtenidos correectamente"
         }
@@ -41,6 +46,29 @@ server.post("/platillos", (request, response) => {
         }
     );
 });
+
+server.put("/platillos/:index", (request, response) => {
+   const {index} = request.params;
+   const platillo = request.body;
+   platillos[index] = platillo;
+    response.json(
+        {
+            data: index,
+            mensaje: "Se actualizo el platillo"
+        }
+    );
+});
+
+server.delete("/platillos/:index", (request, response) => {
+    const {index} = request.params;
+   platillos.splice(index,1);
+     response.json(
+         {
+             data: index,
+             mensaje: "Se elimino correctamente"
+         }
+     );
+ });
 
 server.listen(PORT, () => {
     console.log("Servidor iniciado en el puerto 3000")
