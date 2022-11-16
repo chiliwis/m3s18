@@ -29,10 +29,14 @@ server.get("/platillos", (request, response) => {
 });
 
 server.post("/platillos", (request, response) => {
+    const platillo = request.body;
+    if (!platillo.nombre) {
+        return response.status(400).json({mensaje:"El platillo debe tener un nombre"});
+    }
+    platillos.push(platillo);
     response.json(
         {
-            data: request.body,
-            count: platillos.length,
+            data: platillo,
             mensaje: "Entro a la funcion de agregar platillo"
         }
     );
